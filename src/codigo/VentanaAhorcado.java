@@ -5,6 +5,8 @@
  */
 package codigo;
 
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 /**
@@ -13,16 +15,69 @@ import javax.swing.JButton;
  */
 public class VentanaAhorcado extends javax.swing.JFrame {
 
+    //Esta variable guarda el numero de fallos
+    int numeroFallos = 0;
+    
+    String palabraOculta = "CETYS";
+    
     private void chequeaBoton(JButton boton){
         boton.setEnabled(false);
+        chequeaLetra(boton.getText());
     }
+    //Este void irá cambiando la imagen en función de los fallos
+    private void dibujaImagen(){
+    String nombreImagen = "";
+    switch(numeroFallos){
+        case -1: nombreImagen = "/imagenes/acertasteTodo.png"; break;
+        case 0: nombreImagen = "/imagenes/ahorcado_0.png"; break;
+        case 1: nombreImagen = "/imagenes/ahorcado_1.png"; break;
+        case 2: nombreImagen = "/imagenes/ahorcado_2.png"; break;
+        case 3: nombreImagen = "/imagenes/ahorcado_3.png"; break;
+        case 4: nombreImagen = "/imagenes/ahorcado_4.png"; break;
+        case 5: nombreImagen = "/imagenes/ahorcado_5.png"; break;
+        default : nombreImagen = "/imagenes/ahorcado_fin.png"; break;
+    }
+    
+        ImageIcon miImagen = new ImageIcon(
+                    //Buscar la imagen y reescalarla.
+                        new ImageIcon(getClass().getResource(nombreImagen))
+                        .getImage()
+                        .getScaledInstance(jLabel2.getWidth(), jLabel2.getHeight(), Image.SCALE_DEFAULT)
+                
+        );
+        //Cargo la imagen en el jLabel que muestra los fallos que llevamos.
+        jLabel2.setIcon(miImagen);
+    }
+    
     /**
      * Creates new form VentanaAhorcado
      */
     public VentanaAhorcado() {
         initComponents();
+        dibujaImagen();
     }
 
+    private void chequeaLetra (String letra){
+        String palabraConGuiones = jLabel1.getText();
+        if(palabraOculta.contains(letra)){
+            char letraPulsada = letra.charAt(0);
+            for (int i=0; i< palabraOculta.length(); i++){
+                if(palabraOculta.charAt(i) == letraPulsada){
+                palabraConGuiones = palabraConGuiones.substring(0, 2*i) + letra + palabraConGuiones.substring(2*i + 1);
+                }
+            }
+            jLabel1.setText(palabraConGuiones);
+            if(!palabraConGuiones.contains("_")){
+            numeroFallos = -1;
+            dibujaImagen();
+            }
+        }
+        else{
+        numeroFallos++;
+        dibujaImagen();
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
