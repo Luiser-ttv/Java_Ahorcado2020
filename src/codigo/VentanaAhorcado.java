@@ -6,6 +6,7 @@
 package codigo;
 
 import java.awt.Image;
+import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -18,7 +19,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
     //Esta variable guarda el numero de fallos
     int numeroFallos = 0;
     
-    String palabraOculta = "CETYS";
+    String palabraOculta = eligePalabra();
     
     private void chequeaBoton(JButton boton){
         boton.setEnabled(false);
@@ -55,6 +56,21 @@ public class VentanaAhorcado extends javax.swing.JFrame {
     public VentanaAhorcado() {
         initComponents();
         dibujaImagen();
+        String auxiliar = "";
+        for (int i=0; i < palabraOculta.length(); i++){
+            auxiliar = auxiliar + "_ ";
+            
+    }
+        jLabel1.setText(auxiliar);
+        
+    }
+    
+    
+    private String eligePalabra(){
+        String [] listaPalabras = {"CETYS" , "HOLA", "VLADIKAKA", "BABYYODA", "BORREGUITO"};
+        Random aleatorio = new Random();
+        int posicion = aleatorio.nextInt(listaPalabras.length);
+        return listaPalabras[posicion].toUpperCase();
     }
 
     private void chequeaLetra (String letra){
