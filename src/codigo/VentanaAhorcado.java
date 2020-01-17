@@ -18,12 +18,14 @@ public class VentanaAhorcado extends javax.swing.JFrame {
 
     //Esta variable guarda el numero de fallos
     int numeroFallos = 0;
-    
+    boolean partidaTerminada = false;
     String palabraOculta = eligePalabra();
     
     private void chequeaBoton(JButton boton){
+        if(!partidaTerminada){
         boton.setEnabled(false);
         chequeaLetra(boton.getText());
+        }
     }
     //Este void irá cambiando la imagen en función de los fallos
     private void dibujaImagen(){
@@ -86,11 +88,17 @@ public class VentanaAhorcado extends javax.swing.JFrame {
             if(!palabraConGuiones.contains("_")){
             numeroFallos = -1;
             dibujaImagen();
+            partidaTerminada = true;
             }
         }
         else{
         numeroFallos++;
+        if(numeroFallos == 6){
+        partidaTerminada = true;
+        }
+        
         dibujaImagen();
+            System.out.println("GAME OVER");
         }
     }
     
